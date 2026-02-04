@@ -1,135 +1,58 @@
+<script setup>
+// Importamos herramientas reactivas
+import { ref } from 'vue'
+
+// Importamos componentes de layout
+import AppHeader from './components/layout/AppHeader.vue'
+import AppFooter from './components/layout/AppFooter.vue'
+
+// Importamos las "vistas" (componentes que se mostrarán según el botón)
+import HomeView from './components/HomeView.vue'
+import GanadorView from './components/GanadorView.vue'
+import TopTresView from './components/TopTresView.vue'
+import UltimosTresView from './components/UltimosTresView.vue'
+import ConsultaNombreView from './components/ConsultaNombreView.vue'
+import ConsultaPosicionView from './components/ConsultaPosicionView.vue'
+
+// Estado reactivo que controla qué vista se muestra
+// Es el equivalente a la navegación sin router
+const vistaActual = ref('home')
+</script>
 
 <template>
+  <!-- Cabecera -->
   <AppHeader />
 
-  <main>
-    <section class="bienvenida">
-      <p>Bienvenido al sistema de consulta de productos</p>
+  <!-- Contenido principal -->
+  <main class="layout">
+
+    <!-- Panel lateral -->
+    <aside class="menu-lateral">
+      <!-- botones -->
+      <!--  por ahora no mostramos botón de inicio  (soamente actua como vista inicial)
+      <button @click="vistaActual = 'inicio'">🏠 Inicio</button>
+      -->
+      <button @click="vistaActual = 'ganador'">🥇 Producto ganador</button>
+      <button @click="vistaActual = 'top3'">🏆 Top 3</button>
+      <button @click="vistaActual = 'ultimos3'">📉 Últimos 3</button>
+      <button @click="vistaActual = 'nombre'">🔍 Buscar por nombre</button>
+      <button @click="vistaActual = 'posicion'">🔢 Buscar por posición</button>
+    </aside>
+
+    <!-- Panel central -->
+    <section class="panel-central">
+      <div class="panel-contenido">
+        <HomeView v-if="vistaActual === 'home'" />
+        <GanadorView v-if="vistaActual === 'ganador'" />
+        <TopTresView v-if="vistaActual === 'top3'" />
+        <UltimosTresView v-if="vistaActual === 'ultimos3'" />
+        <ConsultaNombreView v-if="vistaActual === 'nombre'" />
+        <ConsultaPosicionView v-if="vistaActual === 'posicion'" />
+      </div>      
     </section>
 
-    <section class="acciones">
-      <button @click="productoGanador">Producto ganador</button>
-      <button @click="topTres">Top 3 más votados</button>
-      <button @click="bottomTres">Top 3 menos votados</button>
-    </section>
-
-    <section class="consultas">
-      <article>
-        <h3>Consultar por nombre</h3>
-        <input v-model="nombreBusqueda" />
-        <button @click="buscarPorNombre">Buscar</button>
-      </article>
-
-      <article>
-        <h3>Consultar por posición</h3>
-        <input v-model.number="posicionBusqueda" type="number" />
-        <button @click="buscarPorPosicion">Buscar</button>
-      </article>
-    </section>
-
-    <section v-if="loading">Cargando datos...</section>
-    <section v-if="error" class="error">{{ error }}</section>
-
-    <section v-if="resultado">
-      <figure>
-        <img :src="`/imagenes/productos/${resultado.foto}`" />
-        <figcaption>
-          {{ resultado.nombre }} - Votos: {{ resultado.votacion }}
-        </figcaption>
-      </figure>
-    </section>
   </main>
 
+  <!-- Pie de página -->
   <AppFooter />
 </template>
-
-<script>
-import AppHeader from './components/AppHeader.vue'
-import AppFooter from './components/AppFooter.vue'
-import { obtenerProductos } from './services/productosService'
-
-export default {
-
-  components: {
-    AppHeader,
-    AppFooter
-  },
-  
-  data() {
-    return {
-      productos: [],
-      loading: false,
-      error: null,
-      resultado: null,
-      nombreBusqueda: '',
-      posicionBusqueda: null
-    }
-  },
-
-  async mounted() {
-    this.loading = true
-    try {
-      this.productos = await obtenerProductos()
-    } catch (e) {
-      this.error = 'Error al cargar productos'
-    } finally {
-      this.loading = false
-    }
-  },
-
-  methods: {
-    productoGanador() {
-      this.resultado = [...this.productos].sort(
-        (a, b) => b.votacion - a.votacion
-      )[0]
-    },
-
-    topTres() {
-      alert(
-        JSON.stringify(
-          [...this.productos]
-            .sort((a, b) => b.votacion - a.votacion)
-            .slice(0, 3),
-          null,
-          2
-        )
-      )
-    },
-
-    bottomTres() {
-      alert(
-        JSON.stringify(
-          [...this.productos]
-            .sort((a, b) => a.votacion - b.votacion)
-            .slice(0, 3),
-          null,
-          2
-        )
-      )
-    },
-
-    buscarPorNombre() {
-      if (!this.nombreBusqueda) {
-        this.error = 'Debe ingresar un nombre'
-        return
-      }
-      this.resultado = this.productos.find(
-        p => p.nombre.toLowerCase() === this.nombreBusqueda.toLowerCase()
-      )
-      if (!this.resultado) this.error = 'Producto no encontrado'
-    },
-
-    buscarPorPosicion() {
-      if (
-        isNaN(this.posicionBusqueda) ||
-        this.posicionBusqueda < 1 ||
-        this.posicionBusqueda > this.productos.length
-      ) {
-        this.error = 'Posición inválida'
-        return
-      }
-      this.resultado = this.productos[this.posicionBusqueda - 1]
-    }
-  }
-}
-</script>

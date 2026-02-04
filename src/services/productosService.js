@@ -1,5 +1,17 @@
+/**
+ * Este módulo del proyecto es el responsable de obtener los 
+ * productos desde una API REST.
+ * El objetivo es utilizar axios para interactuar con el servdor
+ * Aunque en esta versión simularemos dicha conexión.
+ */
+
+// Importamos axios para realizar peticiones HTTP
 import axios from 'axios'
 
+/*
+  Esta constante simula los datos que normalmente
+  vendrían desde una base de datos o API REST
+*/
 const productos = [
   { nombre: 'Revitalift', foto: 'revitalift.avif', votacion: 120 },
   { nombre: 'Elseve', foto: 'elseve.jpg', votacion: 98 },
@@ -13,11 +25,29 @@ const productos = [
   { nombre: 'Studio Line', foto: 'studioline.jpg', votacion: 30 }
 ]
 
-// Simulación de llamada con Axios
-export function obtenerProductos() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(productos)
-    }, 1500)
-  })
+
+/*
+  Función que representa una llamada al servidor.
+  En esta versión:
+  - Usamos axios para ilustrar su uso
+  - Simulamos la respuesta con un Promise
+*/
+export async function obtenerProductos() {
+  try {
+    // EJEMPLO REAL (comentado para uso futuro)
+    // const response = await axios.get('https://api.midominio.com/productos')
+    // return response.data
+
+    // SIMULACIÓN CONTROLADA
+    // Simulamos retardo de red    
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(productos)
+      }, 800)
+    })
+
+  } catch (error) {
+    console.error('Error al obtener los productos:', error)
+    throw new Error('No fue posible obtener los productos')
+  }
 }
