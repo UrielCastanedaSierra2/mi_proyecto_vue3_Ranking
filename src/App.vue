@@ -1,4 +1,7 @@
 <script setup>
+// importamos  herramientas para Conectar BackEnd
+// import {computed, onMounted } from 'vue';
+
 // Importamos herramientas reactivas
 import { ref } from 'vue'
 
@@ -56,3 +59,4 @@ const vistaActual = ref('home')
   <!-- Pie de página -->
   <AppFooter />
 </template>
+
