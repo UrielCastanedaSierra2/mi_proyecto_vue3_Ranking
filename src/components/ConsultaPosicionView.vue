@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { obtenerProductos } from '@/services/productosService'
-import { obtenerImagen } from '@/utils/images'
+import { urlFoto } from '@/utils/images'
 
 const posicion = ref('')
 const resultado = ref(null)
@@ -43,7 +43,7 @@ async function buscarPorPosicion() {
     <p v-if="error" class="error">{{ error }}</p>
 
     <article v-if="resultado" class="tarjeta-producto">
-      <img :src="obtenerImagen(resultado.foto)" :alt="resultado.nombre" />
+      <img :src="urlFoto(resultado.foto)" :alt="resultado.nombre" />
       <h3>{{ resultado.nombre }}</h3>
       <p>Votos: {{ resultado.votacion }}</p>
     </article>

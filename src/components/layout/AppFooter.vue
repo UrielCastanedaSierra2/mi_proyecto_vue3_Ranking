@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <p>© 2026 - Proyecto académico Vue</p>
+    <p>© 2026 - Proyecto académico Vue v3.1</p>
   </footer>
 </template>
 

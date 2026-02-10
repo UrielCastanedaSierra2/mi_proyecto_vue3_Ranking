@@ -10,7 +10,8 @@
  */
 import { ref, onMounted } from 'vue'
 import { obtenerProductos } from '@/services/productosService'
-import { obtenerImagen } from '@/utils/images'
+import { urlFoto } from '@/utils/images'
+
 
 const ultimosTres = ref([])
 const cargando = ref(true)
@@ -82,7 +83,7 @@ onMounted(async () => {
 
         <!-- Imagen del producto -->
         <td class="col-imagen">
-          <img :src="obtenerImagen(producto.foto)" :alt="producto.nombre" />
+          <img :src="urlFoto(producto.foto)" :alt="producto.nombre" />
         </td>
 
         <!-- Nombre del producto -->        

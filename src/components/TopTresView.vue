@@ -7,6 +7,7 @@
 import { ref, onMounted } from 'vue'
 import { obtenerProductos } from '@/services/productosService'
 import { obtenerImagen } from '@/utils/images'
+import { urlFoto } from '@/utils/images'
 
 const topTres = ref([])
 const cargando = ref(true)
@@ -48,7 +49,7 @@ onMounted(async () => {
             {{ producto.votacion }} votos
           </td>
           <td class="col-imagen">
-            <img :src="obtenerImagen(producto.foto)" :alt="producto.nombre" />
+            <img :src="urlFoto(producto.foto)" :alt="producto.nombre" />
           </td>
           <td class="col-nombre">
             {{ producto.nombre }}
