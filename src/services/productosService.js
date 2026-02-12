@@ -9,8 +9,11 @@
 import axios from 'axios'
 
 import { PATH_FOTOS } from '@/utils/paths'
-import { API_BASE } from '@/utils/paths'
+// import { API_BASE } from '@/utils/paths'
 import { API_PATH } from '@/utils/paths'
+
+// direcconamos el Path de las APIs desde las variables de entorno (.env)
+const API_BASE = import.meta.env.VITE_API_URL;
 
 /*
   Función que representa una llamada al servidor.
@@ -27,17 +30,14 @@ export async function obtenerProductos() {
     const url = `${API_BASE}${API_PATH}`;
     console.log('URL consultada:', url);
 
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status} - ${res.statusText}`);
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status} - ${response.statusText}`);
 
     // transferimos los datos leidos (en formato json) a un array (arreglo de Registros u objetos)
-     const data = await res.json();
+     const data = await response.json();
      
     // preprocesamos los datos leidos para normalizar su contenido
     // dependiendo de la fuente de datos. Estas fuentes las revisa la función normalizar().
-
-   // const productos = [...normalizar(data)];
-
 
     return new Promise((resolve) => {
         resolve([...normalizar(data)])

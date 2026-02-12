@@ -12,12 +12,12 @@ export const PATH_FOTOS = '/imagenes/productos'
 
 // BACK LOCAL (nuestra API):
 // API privada local (la desconectamos Alternandola con la PÚBLICA)
-//export const API_BASE = 'http://localhost:3000';
-//export const API_PATH = '/api/productos'; 
+export const API_BASE = 'http://localhost:3000';
+export const API_PATH = '/api/productos-db'; 
 
 // 👉 Aquí SOLO registras el path (una o varias carpetas)
 
 // ---------- API PÚBLICA  -------
-export const API_BASE = 'https://dummyjson.com';
-export const API_PATH = '/products';    // (para las APIs pública de ejemplo)
+//export const API_BASE = 'https://dummyjson.com';
+//export const API_PATH = '/products';    // (para las APIs pública de ejemplo)
 

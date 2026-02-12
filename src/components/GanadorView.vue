@@ -52,24 +52,3 @@ onMounted(async () => {
     </article>
   </section>
 </template>
-
-<!-- ------ eliminar  despues de probar -----------
-<template>
-  <section>
-    <h2>🏆 Producto Ganador</h2>
-
-    <p v-if="cargando">Cargando información...</p>
-    <p v-if="error" class="error">{{ error }}</p>
-
-    <article v-if="productoGanador" class="tarjeta-producto">
-
-      <img
-        :src="productoGanador.foto"
-        :alt="productoGanador.nombre"
-      />
-      <h3>{{ productoGanador.nombre }}</h3>
-      <p>Votos obtenidos: {{ productoGanador.votacion }}</p>
-    </article>
-  </section>
-</template>
---> 
