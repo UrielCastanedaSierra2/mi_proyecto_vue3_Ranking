@@ -15,32 +15,34 @@ import { API_PATH } from '@/utils/paths'
 /*
   Función que representa una llamada al servidor.
   En esta versión:
-   - usamos axios para la petición real.
+  - Usamos axios para ilustrar su uso
+  - Simulamos la respuesta con un Promise
 */
 export async function obtenerProductos() {
   try {
-    // Construimos la URL completa de la API
+    // EJEMPLO REAL (comentado para uso futuro)
+    // const response = await axios.get('https://api.midominio.com/productos')
+    // return response.data
+
     const url = `${API_BASE}${API_PATH}`;
     console.log('URL consultada:', url);
 
-    // Petición HTTP GET usando axios
-    // Axios devuelve directamente el objeto de respuesta
-    const response = await axios.get(url);
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status} - ${response.statusText}`);
 
-    // Axios ya entrega los datos convertidos a JSON
-    // por lo tanto no es necesario transferirlos a formato json (como se hizo al utilizar fetch)
-    // en data ya queda listo el array (arreglo de Registros u objetos en formato json)
-    const data = response.data;
+    // transferimos los datos leidos (en formato json) a un array (arreglo de Registros u objetos)
+     const data = await response.json();
+     
+    // preprocesamos los datos leidos para normalizar su contenido
+    // dependiendo de la fuente de datos. Estas fuentes las revisa la función normalizar().
 
-    // Normalizamos los datos según la fuente recibida, para adaptarlos a la estructura de nuestro
-    // registro de productos
     return new Promise((resolve) => {
-      resolve([...normalizar(data)]);
-    });
+        resolve([...normalizar(data)])
+    })
 
   } catch (error) {
-    console.error('Error al obtener los productos:', error);
-    throw new Error('No fue posible obtener los productos');
+    console.error('Error al obtener los productos:', error)
+    throw new Error('No fue posible obtener los productos')
   }
 }
 
@@ -50,21 +52,24 @@ export async function obtenerProductos() {
  */
 export async function votarProducto(nombre) {
   try {
-    // Construimos la URL completa enviando el nombre codificado
-    const url = `${API_BASE}${API_PATH}/votar/${encodeURIComponent(nombre)}`;
+    const url = `${API_BASE}${API_PATH}/votar/${encodeURIComponent(nombre)}`
 
-    // Petición HTTP PUT usando axios
-    // Axios lanza error automáticamente si el estado HTTP es 4xx o 5xx
-    const response = await axios.put(url);
+    const response = await fetch(url, {
+      method: 'PUT'
+    })
 
-    // Axios ya entrega la respuesta convertida a JSON en response.data
-    return response.data;
+    if (!response.ok)
+      throw new Error(`HTTP ${response.status}`)
+
+    return await response.json()
 
   } catch (error) {
-    console.error('Error al votar:', error);
-    throw new Error('No fue posible registrar el voto');
+    console.error('Error al votar:', error)
+    throw new Error('No fue posible registrar el voto')
   }
 }
+
+
 
 /* ==========================================================
    FUNCIONES Utilitarias para tratamiento de URLs de imágenes
