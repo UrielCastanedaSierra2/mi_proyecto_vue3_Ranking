@@ -16,6 +16,7 @@ import TopTresView from './components/TopTresView.vue'
 import UltimosTresView from './components/UltimosTresView.vue'
 import ConsultaNombreView from './components/ConsultaNombreView.vue'
 import ConsultaPosicionView from './components/ConsultaPosicionView.vue'
+import VotacionView from './components/VotacionView.vue'
 
 // Estado reactivo que controla qué vista se muestra
 // Es el equivalente a la navegación sin router
@@ -40,6 +41,7 @@ const vistaActual = ref('home')
       <button @click="vistaActual = 'ultimos3'">📉 Últimos 3</button>
       <button @click="vistaActual = 'nombre'">🔍 Buscar por nombre</button>
       <button @click="vistaActual = 'posicion'">🔢 Buscar por posición</button>
+      <button @click="vistaActual = 'votar'">🗳️ Votar producto</button>
     </aside>
 
     <!-- Panel central -->
@@ -51,6 +53,7 @@ const vistaActual = ref('home')
         <UltimosTresView v-if="vistaActual === 'ultimos3'" />
         <ConsultaNombreView v-if="vistaActual === 'nombre'" />
         <ConsultaPosicionView v-if="vistaActual === 'posicion'" />
+        <VotacionView v-if="vistaActual === 'votar'" />
       </div>      
     </section>
 

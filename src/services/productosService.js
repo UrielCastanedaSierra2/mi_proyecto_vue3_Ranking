@@ -49,6 +49,29 @@ export async function obtenerProductos() {
   }
 }
 
+/** -----------------------------------------
+ * Envía un voto al backend para incrementar la votación
+ * ------------------------------------------
+ */
+export async function votarProducto(nombre) {
+  try {
+    const url = `${API_BASE}${API_PATH}/votar/${encodeURIComponent(nombre)}`
+
+    const response = await fetch(url, {
+      method: 'PUT'
+    })
+
+    if (!response.ok)
+      throw new Error(`HTTP ${response.status}`)
+
+    return await response.json()
+
+  } catch (error) {
+    console.error('Error al votar:', error)
+    throw new Error('No fue posible registrar el voto')
+  }
+}
+
 
 
 /* ==========================================================
