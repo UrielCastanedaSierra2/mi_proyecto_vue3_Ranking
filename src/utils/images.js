@@ -4,8 +4,6 @@
 
 import { PATH_FOTOS } from './paths'
 import { API_BASE } from './paths'
-import { API_PATH } from './paths'
-
 
 export function obtenerImagen(nombreArchivo) {
   /*

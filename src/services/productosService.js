@@ -9,11 +9,8 @@
 import axios from 'axios'
 
 import { PATH_FOTOS } from '@/utils/paths'
-// import { API_BASE } from '@/utils/paths'
+import { API_BASE } from '@/utils/paths'
 import { API_PATH } from '@/utils/paths'
-
-// direcconamos el Path de las APIs desde las variables de entorno (.env)
-const API_BASE = import.meta.env.VITE_API_URL;
 
 /*
   Función que representa una llamada al servidor.

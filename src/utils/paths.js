@@ -7,17 +7,25 @@ export const PATH_FOTOS = '/imagenes/productos'
 
 /* ======================================================
    CONFIGURACIÓN ÚNICA DE LA API
-   👉 Solo cambia la BASE o el PATH
+   👉 Solo cambia la BASE o el PATH,  
+   direccionamos el Path de las APIs desde las variables de entorno (.env) 
+   también se evalúa qué complementario se está utilizando y si la B.D. es simulada o real;
+   esto con el fin de complementar el Path  definitivo (Ruta completa de la API).
    ====================================================== */
 
-// BACK LOCAL (nuestra API):
-// API privada local (la desconectamos Alternandola con la PÚBLICA)
-export const API_BASE = 'http://localhost:3000';
-export const API_PATH = '/api/productos-db'; 
+export const API_BASE = import.meta.env.VITE_API_URL;
 
-// 👉 Aquí SOLO registras el path (una o varias carpetas)
+var PATH_complementario_API = "";     
+switch (API_BASE) {
+  case   'https://dummyjson.com':            // (para esta API pública externa de pruebas)
+         PATH_complementario_API = '/products';    // https://dummyjson.com/products   
+         break; 
 
-// ---------- API PÚBLICA  -------
-//export const API_BASE = 'https://dummyjson.com';
-//export const API_PATH = '/products';    // (para las APIs pública de ejemplo)
-
+  default:  // Para nuestra API   (pruebas o producción)
+            // evaluamos si es entorno de B.D. simulado o Real
+         if(import.meta.env.VITE_BD_SIMULADA=='SI') 
+            PATH_complementario_API = '/api/productos';
+         else
+            PATH_complementario_API = '/api/productos-db';
+}
+export const API_PATH = PATH_complementario_API; 

@@ -420,3 +420,12 @@ footer {
   }
 }
 
+/* =========================
+   SELECCION DE PRODUCTOS
+========================= */
+.combo-productos {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 16px;
+  min-height: 45px;
+}

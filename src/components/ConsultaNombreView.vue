@@ -40,7 +40,6 @@ async function buscarProducto() {
     <p v-if="error" class="error">{{ error }}</p>
 
     <article v-if="resultado" class="tarjeta-producto">
-      alert resultado.nombre()
       <img :src="urlFoto(resultado.foto)" :alt="resultado.nombre" />
       <h3>{{ resultado.nombre }}</h3>
       <p>Votos: {{ resultado.votacion }}</p>
