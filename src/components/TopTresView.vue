@@ -8,6 +8,7 @@ import { ref, onMounted } from 'vue'
 import { obtenerProductos } from '@/services/productosService'
 import { obtenerImagen } from '@/utils/images'
 import { urlFoto } from '@/utils/images'
+import { urlFotoGenericaFront } from '@/utils/images'
 
 const topTres = ref([])
 const cargando = ref(true)
@@ -31,6 +32,13 @@ onMounted(async () => {
     cargando.value = false
   }
 })
+
+// constante que identifica la fotografía a mostrar cuando 
+// no se encuentra la foto solicitada o el servidor que la provee falla
+// en este caso la foto reside en el mismo servidor del Front.
+const urlFotoGenerica = (e) => {
+  e.target.src = urlFotoGenericaFront("Producto");
+};
 </script>
 
 <template>
@@ -49,7 +57,9 @@ onMounted(async () => {
             {{ producto.votacion }} votos
           </td>
           <td class="col-imagen">
-            <img :src="urlFoto(producto.foto)" :alt="producto.nombre" />
+            <img  :src="urlFoto(producto.foto)" 
+                  @error="urlFotoGenerica"            
+                  :alt="producto.nombre" />
           </td>
           <td class="col-nombre">
             {{ producto.nombre }}

@@ -8,7 +8,6 @@
 // Importamos axios para realizar peticiones HTTP
 import axios from 'axios'
 
-import { PATH_FOTOS } from '@/utils/paths'
 import { API_BASE } from '@/utils/paths'
 import { API_PATH } from '@/utils/paths'
 
@@ -80,36 +79,23 @@ function esUrlAbsoluta(str) {
   return typeof str === 'string' && /^https?:\/\//i.test(str);
 }
 
-// ==== Auxiliar: Constructor de la URL de la foto indicada en p 
-//      en e HTML asigne la referencia usando esta función
-//      <img  :src="urlFoto(variable_que_contiene_el_dato_de_la_foto) />
-function urlFoto(foto) {
-
-  // Si viene de API pública con URL completa, úsa esa misma  (ya tiene la url completa).
-  if (foto && esUrlAbsoluta(foto)) return foto;
-
-  // Si es local (solo nombre de archivo), servir desde backend/public/imagenes/productos
-  if (foto) return `${API_BASE}${PATH_FOTOS}/${foto}`;
-
-  // Fallback opcional (imagen genérica o nada)
-  return '';
-}
-
-
-
 /* (Opcional) Normalizador simple por si a futuro mezclas orígenes */
+// se analiza la estructura del registro leido,  
+// si viene de la API propia   o de  una API externa de prueba
+//----------------
 function normalizar(raw) {
-  // Ya vienen en tu formato local
+  // Ya vienen en tu formato local (API propia)
   if (Array.isArray(raw) && raw.length && 'nombre' in raw[0]) return raw;
 
+  // para el caso de la API servida por https://dummyjson.com 
   // Fake Store API: arreglo con 'title', 'image', 'rating.count'
+  // en su primera posición viene el campo 'title'
   if (Array.isArray(raw) && raw.length && 'title' in raw[0]) {
 
-  
-
+    // Realizamos la transferencia de valor de los campos al registro PROPIO
     return raw.map(p => ({
       nombre: p.title,
-      foto: p.image,                // puede ser absoluta
+      foto: p.image,     // puede ser absoluta   o  solo nombre de archivo
       votacion: p.rating?.count ?? 0
     }));
   }
@@ -119,7 +105,7 @@ function normalizar(raw) {
   if (raw && Array.isArray(raw.products)) {
     return raw.products.map(p => ({
       nombre: p.title,
-      foto: p.thumbnail || p.images?.[0], // puede ser absoluta
+      foto: p.thumbnail || p.images?.[0], // puede ser absoluta o solo archivo
       votacion: Math.round((p.rating ?? 0) * 20)
     }));
   }

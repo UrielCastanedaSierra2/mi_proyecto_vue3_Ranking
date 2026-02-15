@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { obtenerProductos } from '@/services/productosService'
 import { obtenerImagen } from '@/utils/images'
 import { urlFoto } from '@/utils/images'
+import { urlFotoGenericaFront } from '@/utils/images'
 
 // Estados reactivos
 const productoGanador = ref(null)
@@ -30,6 +31,13 @@ onMounted(async () => {
     cargando.value = false
   }  
 })
+
+// constante que identifica la fotografía a mostrar cuando 
+// no se encuentra la foto solicitada o el servidor que la provee falla
+// en este caso la foto reside en el mismo servidor del Front.
+const urlFotoGenerica = (e) => {
+  e.target.src = urlFotoGenericaFront("Producto");
+};
 </script>
 
 
@@ -45,6 +53,7 @@ onMounted(async () => {
       <!-- Imagen renderizada desde URL -->
       <img
         :src="urlFoto(productoGanador.foto)"
+        @error="urlFotoGenerica"
         :alt="productoGanador.nombre"
       />
       <h3>{{ productoGanador.nombre }}</h3>

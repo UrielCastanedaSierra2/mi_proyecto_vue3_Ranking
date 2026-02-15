@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { obtenerProductos, votarProducto } from '@/services/productosService'
 import { urlFoto } from '@/utils/images'
+import { urlFotoGenericaFront } from '@/utils/images'
 
 // ====== ESTADOS ======
 const productos = ref([])
@@ -66,6 +67,13 @@ function nuevaVotacion() {
   votoRealizado.value = false
   mostrarNuevaVotacion.value = false
 }
+
+// constante que identifica la fotografía a mostrar cuando 
+// no se encuentra la foto solicitada o el servidor que la provee falla
+// en este caso la foto reside en el mismo servidor del Front.
+const urlFotoGenerica = (e) => {
+  e.target.src = urlFotoGenericaFront("producto");
+};
 </script>
 
 
@@ -99,6 +107,7 @@ function nuevaVotacion() {
 
       <img
         :src="urlFoto(productoSeleccionado.foto)"
+        @error="urlFotoGenerica"             
         :alt="productoSeleccionado.nombre"
       />
 
@@ -130,14 +139,3 @@ function nuevaVotacion() {
     </button>
   </section>
 </template>
-
-<!--
-<style scoped>
-.combo-productos {
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 16px;
-  min-height: 45px;
-}
-</style>
--->

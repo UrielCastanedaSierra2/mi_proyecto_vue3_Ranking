@@ -31,7 +31,7 @@ export function urlFoto(foto) {
   // primero verificamos si viene informado el nombre o url de la foto
   if (!foto) {
     // si no viene foto, Fallback opcional (se muestra imagen o nada)
-    foto `${API_BASE}${PATH_FOTOS}/no-imagen.jpg`
+    return `${API_BASE}${PATH_FOTOS}/no-imagen.jpg`
     //return '';    
   }
 
@@ -42,4 +42,12 @@ export function urlFoto(foto) {
   // (la foto es local o propia) servir desde el path definido para el backend
   return `${API_BASE}${PATH_FOTOS}/${foto}`;
 
+}
+
+// ==== Auxiliar: Constructor de la URL de la foto utilizada por defecto
+//      cuando la imagen no existe o hay falla en el servidor que la provee
+export function urlFotoGenericaFront(fotoObjeto) {
+  if(fotoObjeto === 'producto' ) return "../img/no-imagen.jpg";
+
+  return "";   //   por defecto cuando el objeto no está definido
 }
