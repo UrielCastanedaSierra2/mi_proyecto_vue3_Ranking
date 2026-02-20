@@ -4,12 +4,20 @@
  * El objetivo es utilizar axios para interactuar con el servdor
  * Aunque en esta versión simularemos dicha conexión.
  */
+// import { API_BASE } from '@/utils/paths'
 
-// Importamos axios para realizar peticiones HTTP
-import axios from 'axios'
 
-import { API_BASE } from '@/utils/paths'
-import { API_PATH } from '@/utils/paths'
+// Importa  procedimientos para 
+import { api_axios } from './api_axios';
+
+
+
+ // path complementario de la API, ruta localizada luego de la URL del servidor
+import { API_Productos } from '@/utils/paths'    
+
+// -----  La constante api  enlaza a axios() inyectando la "api-key" 
+//        ESTO es usado para ofrecer seguridad y restingir  al uso de las APIs
+//        solo a quienes conozcan la Clave  x-api-key 
 
 /*
   Función que representa una llamada al servidor.
@@ -19,16 +27,20 @@ import { API_PATH } from '@/utils/paths'
 export async function obtenerProductos() {
   try {
     // Construimos la URL completa de la API
-    const url = `${API_BASE}${API_PATH}`;
-    console.log('URL consultada:', url);
+    // const url = `${API_BASE}${API_PATH}`;
+
+    console.log('URL consultada:',`${API_Productos}`);
 
     // Petición HTTP GET usando axios
     // Axios devuelve directamente el objeto de respuesta
-    const response = await axios.get(url);
+    // ----- const response = await axios.get(url); --- borrar
+
+    const  response  = await api_axios.get(API_Productos);
 
     // Axios ya entrega los datos convertidos a JSON
     // por lo tanto no es necesario transferirlos a formato json (como se hizo al utilizar fetch)
     // en data ya queda listo el array (arreglo de Registros u objetos en formato json)
+
     const data = response.data;
 
     // Normalizamos los datos según la fuente recibida, para adaptarlos a la estructura de nuestro
@@ -50,11 +62,14 @@ export async function obtenerProductos() {
 export async function votarProducto(nombre) {
   try {
     // Construimos la URL completa enviando el nombre codificado
-    const url = `${API_BASE}${API_PATH}/votar/${encodeURIComponent(nombre)}`;
+    // const url = `${API_BASE}${API_Productos}/votar/${encodeURIComponent(nombre)}`;
+    const url = `${API_Productos}/votar/${encodeURIComponent(nombre)}`;
 
     // Petición HTTP PUT usando axios
     // Axios lanza error automáticamente si el estado HTTP es 4xx o 5xx
-    const response = await axios.put(url);
+    // ---- const response = await axios.put(url);  --- borrar
+
+    const response  = await api_axios.put(url);
 
     // Axios ya entrega la respuesta convertida a JSON en response.data
     return response.data;

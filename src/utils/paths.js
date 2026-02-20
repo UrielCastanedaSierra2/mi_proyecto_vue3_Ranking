@@ -28,4 +28,4 @@ switch (API_BASE) {
          else
             PATH_complementario_API = '/api/productos-db';
 }
-export const API_PATH = PATH_complementario_API; 
+export const API_Productos = PATH_complementario_API; 
