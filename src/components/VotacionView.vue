@@ -87,6 +87,7 @@ const urlFotoGenerica = (e) => {
     <select
       v-model="productoSeleccionado"
       class="combo-productos"
+      :disabled="votoRealizado"
     >
       <option disabled value="">
         Selecciona tu producto...

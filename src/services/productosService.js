@@ -1,39 +1,39 @@
 /**
  * Este módulo del proyecto es el responsable de obtener los 
  * productos desde una API REST.
- * El objetivo es utilizar axios para interactuar con el servdor
- * Aunque en esta versión simularemos dicha conexión.
- */
-// import { API_BASE } from '@/utils/paths'
+ * El objetivo es utilizar axios para interactuar con el servidor
+ * ------------------------------------.
+ * En esta versión incorporamos la utilización de la API_KEY,  necesaria
+ * para proteger y restringir su tilización únicamente por parte de quienes 
+ * posean dicha clave.
+ * Por lo tanto las trasnacciones de APIs consumidas por esta aplicación
+ * Debieron ser ajustadas incorporando en su cueró de datos (en su cabecera), el dato
+ * correspondiente a la API_KEY, oblogatoria para que el BackEnd acepte procesar las
+ * peticiones de datos. 
+ * -------------------------------------
+ *  Al crear el objeto api_axios automáticante se transfiere a su cabecera los datos:
+ *  - PATH_BASE de la API  (equivale a la dirección web del servidor backEnd)
+ *  - API_KEY              (equivale a la clave requerida para que el BackEnd  acepte lapetición API
+*/
 
-
-// Importa  procedimientos para 
+// Importamos  y creamos el objeto [api_axios]   Automáticamente inyecta en su cabecera los datos 
+// parametrizados  de PATH_Base y API_KEY. 
 import { api_axios } from './api_axios';
-
-
 
  // path complementario de la API, ruta localizada luego de la URL del servidor
 import { API_Productos } from '@/utils/paths'    
 
-// -----  La constante api  enlaza a axios() inyectando la "api-key" 
-//        ESTO es usado para ofrecer seguridad y restingir  al uso de las APIs
-//        solo a quienes conozcan la Clave  x-api-key 
+// =====================================================
+// Declaración de los servicios Requiere el FRONT para
+// acceder  al la Base de Datos  mediante APIs 
+//------------------------------------------------------
 
-/*
-  Función que representa una llamada al servidor.
-  En esta versión:
-   - usamos axios para la petición real.
-*/
+// OBTENER el conjunto completo de datos de PRODUCTOS
 export async function obtenerProductos() {
   try {
-    // Construimos la URL completa de la API
-    // const url = `${API_BASE}${API_PATH}`;
-
-    console.log('URL consultada:',`${API_Productos}`);
-
+    console.log('Solicitud del listado de productos: ',`${API_Productos}`);
     // Petición HTTP GET usando axios
     // Axios devuelve directamente el objeto de respuesta
-    // ----- const response = await axios.get(url); --- borrar
 
     const  response  = await api_axios.get(API_Productos);
 
@@ -84,11 +84,6 @@ export async function votarProducto(nombre) {
    FUNCIONES Utilitarias para tratamiento de URLs de imágenes
    ========================================================== */
 
-// ==== Auxiliar: Determina si el dato es URL absoluta? 
-function esUrlAbsoluta(str) {
-  return typeof str === 'string' && /^https?:\/\//i.test(str);
-}
-
 /* (Opcional) Normalizador simple por si a futuro mezclas orígenes */
 // se analiza la estructura del registro leido,  
 // si viene de la API propia   o de  una API externa de prueba
@@ -110,7 +105,6 @@ function normalizar(raw) {
     }));
   }
  
-
   // DummyJSON: { products: [...] }
   if (raw && Array.isArray(raw.products)) {
     return raw.products.map(p => ({
